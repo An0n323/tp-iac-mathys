@@ -1,0 +1,8 @@
+.env
+.terraform
+*tfstate*
+*.tfvars
+.ansible
+inventory.ini
+.aws/
+.azure/
