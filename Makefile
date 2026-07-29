@@ -39,3 +39,15 @@ tf.pipe: tf.normalize ## validates, plans and scans terraform config
 tf.apply: tf.pipe ## applies the terraform plan
 	$(TF_CHG_DIR) apply --auto-approve
 	echo "✅ Apply Done"
+
+.PHONY: help tf.init tf.normalize tf.pipe tf.apply lint secrets clean
+
+lint: ## lints the whole repo with pre-commit
+	pre-commit run --all-files
+
+secrets: ## scans the full git history for leaked secrets
+	gitleaks detect --source . --verbose
+
+clean: ## removes local terraform artefacts
+	rm -rf $(TF_DIR)/.terraform $(TF_DIR)/tfplan $(TF_DIR)/tfplan.json
+	echo "$(INFO_COLOR)✅ Clean Done$(RESET_COLOR)"
