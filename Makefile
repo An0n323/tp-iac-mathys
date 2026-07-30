@@ -6,9 +6,9 @@ WARNING_COLOR := \033[33;1m
 ERROR_COLOR := \033[31;1m
 RESET_COLOR := \033[0m
 # ================================================
-ENV ?= dev
-MAKEFLAGS += --warn-undefined-variables --no-print-directory
-TF_DIR = terraform
+ENV ?= dev-aws
+TF_DIR = envs/$(ENV)
+TF_CHG_DIR = terraform -chdir=$(TF_DIR)
 TF_CHG_DIR = terraform -chdir=$(TF_DIR)
 # ================================================
 
