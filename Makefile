@@ -9,10 +9,9 @@ RESET_COLOR := \033[0m
 ENV ?= dev-aws
 TF_DIR = envs/$(ENV)
 TF_CHG_DIR = terraform -chdir=$(TF_DIR)
-TF_CHG_DIR = terraform -chdir=$(TF_DIR)
 # ================================================
 
-.PHONY: help tf.init tf.normalize tf.pipe tf.apply
+.PHONY: help tf.init tf.normalize tf.pipe tf.apply lint secrets clean
 .DEFAULT_GOAL := help
 
 .SILENT:
@@ -32,15 +31,13 @@ tf.normalize: ## formats and lints terraform files
 tf.pipe: tf.normalize ## validates, plans and scans terraform config
 	$(TF_CHG_DIR) validate
 	$(TF_CHG_DIR) plan --out tfplan
-	$(TF_CHG_DIR) show -json $(TF_DIR)/tfplan > $(TF_DIR)/tfplan.json
+	$(TF_CHG_DIR) show -json tfplan > $(TF_DIR)/tfplan.json
 	trivy config $(TF_DIR)/tfplan.json
 	echo "✅ Piping Done"
 
 tf.apply: tf.pipe ## applies the terraform plan
 	$(TF_CHG_DIR) apply --auto-approve
 	echo "✅ Apply Done"
-
-.PHONY: help tf.init tf.normalize tf.pipe tf.apply lint secrets clean
 
 lint: ## lints the whole repo with pre-commit
 	pre-commit run --all-files
