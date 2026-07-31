@@ -33,6 +33,7 @@ En imposant IMDSv2 (`http_tokens = "required"`), l'attaquant de Capital One aura
 ## 5. Capture de la destruction et de facturation après destruction
 ![alt text](image.png)
 ![alt text](image-2.png)
+![alt text](image-3.png)
 
 ## 6. Capture du site internet
 ![alt text](image-1.png)

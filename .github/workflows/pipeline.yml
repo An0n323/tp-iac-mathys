@@ -1,0 +1,62 @@
+name: Déploiement Automatique (TP Final)
+
+on:
+  workflow_dispatch: # Déclencheur manuel (idéal pour tester sans lancer à chaque commit)
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: us-east-1
+
+jobs:
+  validation:
+    name: Étape 1 - Validation du code (IaC)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Installer TFLint et Trivy
+        run: |
+          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+
+      - name: Initialisation Terraform
+        run: make tf.init ENV=dev-aws
+
+      - name: Validation (fmt, tflint, trivy)
+        run: |
+          make tf.normalize ENV=dev-aws
+          make tf.pipe ENV=dev-aws
+
+  provisioning:
+    name: Étapes 2 à 4 - AWS et Ansible
+    needs: validation # Étape 2 : Le pipeline s'arrête ici si "validation" échoue
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Initialisation Terraform
+        run: make tf.init ENV=dev-aws
+
+      - name: Provisionnement (Apply)
+        run: make tf.apply ENV=dev-aws
+
+      - name: Préparer Ansible et la clé SSH
+        run: |
+          sudo apt-get update && sudo apt-get install -y ansible
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ansible/tp-iac-key.pem
+          chmod 600 ansible/tp-iac-key.pem
+
+      - name: Étape 3 - Récupération IP et création inventaire
+        run: |
+          IP=$(terraform -chdir=envs/dev-aws output -raw url_publique | sed 's/http:\/\///')
+          echo "Adresse IP de la machine : $IP"
+          echo "[webservers]" > ansible/inventory.ini
+          echo "$IP ansible_user=ubuntu ansible_ssh_private_key_file=tp-iac-key.pem ansible_ssh_common_args='-o StrictHostKeyChecking=no'" >> ansible/inventory.ini
+
+      - name: Étape 4 - Configuration automatique via Ansible
+        run: |
+          cd ansible
+          ansible-playbook playbook.yml
