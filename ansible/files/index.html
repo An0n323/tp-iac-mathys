@@ -1,1 +1,214 @@
-<h1>Mon pipeline fonctionne !</h1>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projet Infrastructure & CI/CD</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --text: #f8fafc;
+            --primary: #38bdf8;
+            --success: #10b981;
+            --border: #334155;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Effet de lumière en arrière-plan */
+        .bg-glow {
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(56,189,248,0.05) 0%, rgba(15,23,42,0) 60%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            text-align: center;
+            background-color: var(--surface);
+            padding: 3rem;
+            border-radius: 1rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border);
+            max-width: 650px;
+            width: 90%;
+            z-index: 10;
+        }
+
+        h1 {
+            color: var(--primary);
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+            letter-spacing: -0.025em;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            background-color: var(--success);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(0.95); opacity: 1; }
+        }
+
+        p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            font-size: 1.1rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tech-item {
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            padding: 0.5rem 1.25rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #cbd5e1;
+        }
+
+        .interactive-btn {
+            background-color: var(--primary);
+            color: #0f172a;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .interactive-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(56, 189, 248, 0.4);
+        }
+
+        .interactive-btn:active {
+            transform: translateY(0);
+        }
+
+        #terminal {
+            background-color: #000;
+            color: var(--success);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            text-align: left;
+            font-family: 'Courier New', Courier, monospace;
+            margin-top: 1.5rem;
+            display: none;
+            height: 120px;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-glow"></div>
+    <div class="container">
+        <h1>Déploiement Réussi</h1>
+
+        <div class="status-badge">
+            <div class="status-indicator"></div>
+            Infrastructure en ligne
+        </div>
+
+        <p>Bienvenue sur ce serveur web. La chaîne de déploiement continu s'est exécutée avec succès, de l'analyse du code jusqu'à la configuration finale.</p>
+
+        <div class="tech-stack">
+            <span class="tech-item">AWS EC2</span>
+            <span class="tech-item">Terraform</span>
+            <span class="tech-item">Ansible</span>
+            <span class="tech-item">GitHub Actions</span>
+            <span class="tech-item">Nginx</span>
+        </div>
+
+        <button class="interactive-btn" onclick="runDiagnostics()">Lancer les diagnostics</button>
+
+        <div id="terminal"></div>
+    </div>
+
+    <script>
+        function runDiagnostics() {
+            const terminal = document.getElementById('terminal');
+            const btn = document.querySelector('.interactive-btn');
+
+            terminal.style.display = 'block';
+            btn.style.display = 'none';
+
+            const logs = [
+                "[INFO] Initialisation des vérifications système...",
+                "[OK] Communication avec l'hyperviseur AWS établie.",
+                "[OK] Vérification du pare-feu et des règles de sécurité.",
+                "[OK] Test de réponse locale du daemon Nginx.",
+                "[OK] Contrôle d'intégrité des fichiers Terraform state.",
+                "[SUCCESS] Tous les systèmes sont opérationnels et sécurisés."
+            ];
+
+            terminal.innerHTML = '';
+            let delay = 0;
+
+            logs.forEach((log) => {
+                setTimeout(() => {
+                    // Ajouter la ligne avec un effet "machine à écrire" brutal
+                    terminal.innerHTML += `> ${log}<br>`;
+                    // Scroller automatiquement vers le bas
+                    terminal.scrollTop = terminal.scrollHeight;
+                }, delay);
+
+                // Délai aléatoire entre chaque ligne pour simuler un vrai traitement
+                delay += 500 + Math.random() * 600;
+            });
+        }
+    </script>
+</body>
+</html>
