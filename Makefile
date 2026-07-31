@@ -31,7 +31,7 @@ tf.normalize: ## formats and lints terraform files
 
 tf.pipe: tf.normalize ## validates, plans and scans terraform config
 	$(TF_CHG_DIR) validate
-	$(TF_CHG_DIR) plan --out $(TF_DIR)/tfplan
+	$(TF_CHG_DIR) plan --out tfplan
 	$(TF_CHG_DIR) show -json $(TF_DIR)/tfplan > $(TF_DIR)/tfplan.json
 	trivy config $(TF_DIR)/tfplan.json
 	echo "✅ Piping Done"
