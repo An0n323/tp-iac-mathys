@@ -9,7 +9,7 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
   TF_VAR_cidr_admin: "0.0.0.0/0"
-  TF_VAR_nom_cle_ssh: "labsuser"
+  TF_VAR_nom_cle_ssh: "vockey"
   TF_VAR_proprietaire: "Mathys"
   AWS_DEFAULT_REGION: us-east-1
 
