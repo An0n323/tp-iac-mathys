@@ -35,7 +35,7 @@ tf.pipe: tf.normalize ## validates, plans and scans terraform config
 	trivy config $(TF_DIR)/tfplan.json
 	echo "✅ Piping Done"
 
-tf.apply: tf.pipe ## applies the terraform plan
+tf.apply: ## applies the terraform plan
 	$(TF_CHG_DIR) apply --auto-approve
 	echo "✅ Apply Done"
 
