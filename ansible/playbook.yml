@@ -1,0 +1,28 @@
+---
+- name: Installation Engine-X7
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Apt Step
+      ansible.builtin.apt:
+        state: present
+        name: nginx
+        update_cache: yes
+        cache_valid_time: 3600
+    - name: System Check
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: yes
+    - name: Push index.html
+      ansible.builtin.copy:
+        src: files/index.html
+        dest: /var/www/html/index.html
+    - name: Push style.css
+      ansible.builtin.copy:
+        src: files/style.css
+        dest: /var/www/html/style.css
+    - name: Push script.js
+      ansible.builtin.copy:
+        src: files/script.js
+        dest: /var/www/html/script.js
