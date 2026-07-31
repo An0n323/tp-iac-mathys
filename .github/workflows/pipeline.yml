@@ -16,6 +16,9 @@ jobs:
       - name: Récupérer le code
         uses: actions/checkout@v4
 
+      - name: Installer Terraform
+        uses: hashicorp/setup-terraform@v3
+
       - name: Installer TFLint et Trivy
         run: |
           curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
@@ -36,6 +39,9 @@ jobs:
     steps:
       - name: Récupérer le code
         uses: actions/checkout@v4
+
+      - name: Installer Terraform
+        uses: hashicorp/setup-terraform@v3
 
       - name: Initialisation Terraform
         run: make tf.init ENV=dev-aws
