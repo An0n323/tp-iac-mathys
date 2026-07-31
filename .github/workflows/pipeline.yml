@@ -1,11 +1,16 @@
 name: Déploiement Automatique (TP Final)
 
 on:
-  workflow_dispatch: # Déclencheur manuel (idéal pour tester sans lancer à chaque commit)
+  workflow_dispatch:
 
 env:
+  env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+  TF_VAR_cidr_admin: "0.0.0.0/0"
+  TF_VAR_nom_cle_ssh: "vockey"
+  TF_VAR_proprietaire: "Mathys"
   AWS_DEFAULT_REGION: us-east-1
 
 jobs:
@@ -15,6 +20,9 @@ jobs:
     steps:
       - name: Récupérer le code
         uses: actions/checkout@v4
+
+      - name: Installer Terraform
+        uses: hashicorp/setup-terraform@v3
 
       - name: Installer TFLint et Trivy
         run: |
@@ -31,11 +39,14 @@ jobs:
 
   provisioning:
     name: Étapes 2 à 4 - AWS et Ansible
-    needs: validation # Étape 2 : Le pipeline s'arrête ici si "validation" échoue
+    needs: validation
     runs-on: ubuntu-latest
     steps:
       - name: Récupérer le code
         uses: actions/checkout@v4
+
+      - name: Installer Terraform
+        uses: hashicorp/setup-terraform@v3
 
       - name: Initialisation Terraform
         run: make tf.init ENV=dev-aws
