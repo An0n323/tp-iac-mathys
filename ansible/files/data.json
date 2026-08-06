@@ -1,0 +1,24 @@
+{
+  "titre": "Tableau de Bord Infrastructure",
+  "description": "Synthèse du projet d'automatisation Cloud et CI/CD.",
+  "tps": [
+    {
+      "numero": "TP 1",
+      "nom": "Infrastructure as Code",
+      "outils": ["Terraform", "AWS EC2"],
+      "description": "Création de l'infrastructure cloud sur AWS avec Terraform. Déploiement d'une instance EC2, configuration des paires de clés SSH et ouverture des flux de sécurité."
+    },
+    {
+      "numero": "TP 2",
+      "nom": "Gestion de Configuration",
+      "outils": ["Ansible", "Nginx"],
+      "description": "Automatisation du provisionnement avec Ansible. Installation du serveur web Nginx et déploiement des fichiers du site sans intervention manuelle."
+    },
+    {
+      "numero": "TP 3",
+      "nom": "Intégration Continue (CI/CD)",
+      "outils": ["GitHub Actions", "Trivy", "TFLint"],
+      "description": "Création d'un pipeline automatisé. Vérification du formatage, scan de sécurité des failles, et déploiement automatique à chaque push."
+    }
+  ]
+}
