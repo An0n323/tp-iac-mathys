@@ -1,24 +1,31 @@
 {
-  "titre": "Tableau de Bord Infrastructure",
-  "description": "Synthèse du projet d'automatisation Cloud et CI/CD.",
+  "titre": "Tableau de Bord DevOps & Cloud",
+  "description": "Synthèse interactive de l'infrastructure AWS gérée par code et déployée via pipeline CI/CD.",
+  "auteur": "Mathys",
   "tps": [
     {
-      "numero": "TP 1",
+      "id": "tp1",
+      "numero": "Phase 1",
       "nom": "Infrastructure as Code",
-      "outils": ["Terraform", "AWS EC2"],
-      "description": "Création de l'infrastructure cloud sur AWS avec Terraform. Déploiement d'une instance EC2, configuration des paires de clés SSH et ouverture des flux de sécurité."
+      "outils": ["Terraform", "AWS EC2", "Sécurité"],
+      "description": "Provisionnement complet de l'infrastructure cloud. Création sécurisée d'une instance EC2 avec ses groupes de sécurité et paires de clés.",
+      "details": "$ terraform init\n$ terraform plan\n$ terraform apply --auto-approve\n\n- Gestion du tfstate\n- Variables d'environnement dynamiques"
     },
     {
-      "numero": "TP 2",
+      "id": "tp2",
+      "numero": "Phase 2",
       "nom": "Gestion de Configuration",
-      "outils": ["Ansible", "Nginx"],
-      "description": "Automatisation du provisionnement avec Ansible. Installation du serveur web Nginx et déploiement des fichiers du site sans intervention manuelle."
+      "outils": ["Ansible", "Nginx", "Linux"],
+      "description": "Configuration post-déploiement automatisée. Transformation de l'instance EC2 vierge en serveur web fonctionnel.",
+      "details": "$ ansible-playbook playbook.yml -i inventory\n\n- Élévation de privilèges (become: yes)\n- Déploiement de fichiers statiques (module copy)\n- Gestion des services (module service)"
     },
     {
-      "numero": "TP 3",
+      "id": "tp3",
+      "numero": "Phase 3",
       "nom": "Intégration Continue (CI/CD)",
       "outils": ["GitHub Actions", "Trivy", "TFLint"],
-      "description": "Création d'un pipeline automatisé. Vérification du formatage, scan de sécurité des failles, et déploiement automatique à chaque push."
+      "description": "Automatisation du cycle de vie du code. Tests de sécurité, formatage et déploiement à chaque git push.",
+      "details": "# Pipeline YAML\n- Scan de vulnérabilités (Trivy)\n- Linting (TFLint)\n- Gestion des Secrets GitHub (Clés AWS & SSH)"
     }
   ]
 }

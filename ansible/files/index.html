@@ -1,11 +1,58 @@
-Projet CI/CD & Cloud
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord CI/CD</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="status-badge">
+                <span class="pulse"></span> Serveur AWS Opérationnel
+            </div>
+            <h1 id="main-title">Chargement...</h1>
+            <p id="main-desc">Connexion aux données de l'infrastructure...</p>
+            <p class="author-tag">Déployé avec ♥ par <span id="author-name" class="highlight">...</span></p>
 
+            <!-- Barre de filtres -->
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">Toutes les phases</button>
+                <button class="filter-btn" data-filter="Terraform">Terraform</button>
+                <button class="filter-btn" data-filter="Ansible">Ansible</button>
+                <button class="filter-btn" data-filter="GitHub Actions">CI/CD</button>
+            </div>
+        </header>
 
+        <main id="tp-container" class="grid"></main>
 
+        <!-- Section Terminal Interactif -->
+        <section class="terminal-section">
+            <div class="terminal-header">
+                <span>bash - tests de diagnostic</span>
+                <button id="run-deploy" class="deploy-btn">Exécuter le diagnostic</button>
+            </div>
+            <div id="terminal-screen">
+                <div class="log">> Attente d'instruction...</div>
+            </div>
+        </section>
+    </div>
 
+    <!-- Fenêtre Modale (Pop-up) -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header-text" id="modal-numero"></div>
+            <h2 id="modal-title">Titre</h2>
+            <div class="tags" id="modal-tags"></div>
+            <p id="modal-desc"></p>
+            <div class="terminal-box">
+                <pre><code id="modal-details"></code></pre>
+            </div>
+        </div>
+    </div>
 
-
-                 Serveur en ligne
-
-            Chargement...
-            Connexion aux données...
+    <script src="script.js"></script>
+</body>
+</html>
