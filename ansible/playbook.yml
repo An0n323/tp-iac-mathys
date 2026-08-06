@@ -10,10 +10,10 @@
         update_cache: yes
         cache_valid_time: 3600
 
-    - name: Déployer la page d'accueil personnalisée
+    - name: Déployer l'ensemble du site web
       ansible.builtin.copy:
-        src: files/index.html
-        dest: /var/www/html/index.html
+        src: files/
+        dest: /var/www/html/
         owner: www-data
         group: www-data
         mode: '0644'
